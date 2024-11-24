@@ -1,0 +1,53 @@
+:root {
+  padding: 20px;
+}
+h1 {
+  font-weight: normal;
+  text-align: center;
+  margin-top: 0;
+}
+p {
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+table {
+  width: 100%;
+  background: #eee;
+  border: 1px solid #aaa;
+}
+table tr.section {
+  background: lightslategray;
+}
+table table {
+  border: 0;
+}
+table th {
+  background: #ccc;
+  padding: 5px 10px;
+  text-align: left;
+}
+table td {
+  padding: 5px 10px;
+}
+table tr > th:nth-child(1) {
+  width: 20%;
+}
+table tr > td:nth-child(1) {
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+table tr > th > table > thead > tr > th:nth-child(1) {
+  width: 40%;
+}
+
+table tr > td > table > tbody > tr > td:nth-child(1) {
+  width: 40%;
+  border: none;
+}
+table tr > td > table > tbody > tr:nth-child(odd) {
+  background: blanchedalmond;
+}
+table tr > td > table > tbody > tr.SummaryRow {
+  background: lightgreen;
+}
