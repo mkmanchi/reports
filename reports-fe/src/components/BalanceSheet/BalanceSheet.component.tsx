@@ -1,93 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./BalanceSheet.styles.css";
-
-interface TableCell {
-  Value: string;
-}
-interface TableRow {
-  RowType: "Section" | "Row" | "SummaryRow";
-  Title: string;
-  Cells?: TableCell[];
-  Rows?: TableRow[];
-}
-interface Sheet {
-  ReportTitles: string[];
-  ReportName: string;
-  ReportDate: string;
-  Rows?: TableRow[];
-}
+import BalanceSheetSection from "../BalanceSheetSection/BalanceSheetSection.component";
+import BalanceSheetRow from "../BalanceSheetRow/BalanceSheetRow.component";
+import useBalanceSheet from "../../utils/hooks/useBalanceSheet";
 
 const BalanceSheetComponent: React.FC = () => {
-  const [data, setData] = useState<Sheet>({
-    ReportTitles: [],
-    ReportName: "",
-    ReportDate: "",
-  });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    getBalanceSheet();
-  }, []);
-
-  const getBalanceSheet = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch("http://localhost:3002/api/v1/reports");
-      const result = await response.json();
-      setData(result.reports as Sheet);
-    } catch (error) {
-      setData({
-        ReportName: "Error fetching balance sheet",
-        ReportDate: "Error fetching balance sheet",
-        ReportTitles: [],
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const renderRow = (row: TableRow, ind: number) => {
-    if (row.RowType === "Row" || row.RowType === "SummaryRow") {
-      return (
-        <tr key={ind} className={row.RowType}>
-          {row?.Cells?.map((cell, index) => <td key={index}>{cell.Value}</td>)}
-        </tr>
-      );
-    } else {
-      return (
-        <tr key={ind}>
-          <th>{data.ReportTitles.join(" - ")}</th>
-          <th>
-            <table width="100%" cellSpacing={0}>
-              <thead>
-                <tr>
-                  {row?.Cells?.map((cell1, index) => (
-                    <th key={index}>{cell1.Value}</th>
-                  ))}
-                </tr>
-              </thead>
-            </table>
-          </th>
-        </tr>
-      );
-    }
-  };
-
-  const renderSection = (section: TableRow, index: number) => {
-    return (
-      <tr key={index} className={section?.Rows?.length === 0 ? "section" : ""}>
-        <td width="20%">{section.Title}</td>
-        <td colSpan={2}>
-          <table width="100%">
-            <tbody>
-              {section?.Rows?.map((row, idx) => renderRow(row, idx))}
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    );
-  };
-
+  const { data, isLoading } = useBalanceSheet();
   return (
     <>
       <h1>{data.ReportName}</h1>
@@ -97,9 +15,16 @@ const BalanceSheetComponent: React.FC = () => {
         <table cellSpacing={0}>
           <tbody>
             {data.Rows?.map((row, index) => {
-              return row.RowType === "Section"
-                ? renderSection(row, index)
-                : renderRow(row, index);
+              return row.RowType === "Section" ? (
+                <BalanceSheetSection key={index} section={row} index={index} />
+              ) : (
+                <BalanceSheetRow
+                  key={index}
+                  row={row}
+                  index={index}
+                  title={data.ReportTitles}
+                />
+              );
             })}
           </tbody>
         </table>
