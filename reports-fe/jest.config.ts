@@ -1,11 +1,24 @@
-export default {
+import type { Config } from "jest";
+
+const config: Config = {
+  preset: "ts-jest",
+  moduleNameMapper: {
+    "\\.(css|scss)$": "identity-obj-proxy",
+    "^.+\\.svg": "<rootDir>/tests/mocks/svgMock.tsx",
+  },
+  setupFilesAfterEnv: ["<rootDir>/tests/setupTests.ts"],
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  modulePaths: ["<rootDir>"],
   testEnvironment: "jsdom",
   transform: {
-    "^.+\\.tsx?$": "ts-jest",
+    "^.+\\.(ts|tsx)$": [
+      "ts-jest",
+      {
+        tsconfig: "tsconfig.test.json",
+      },
+    ],
+    "^.+\\.(js|jsx)$": "babel-jest",
   },
-  moduleNameMapper: {
-    "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/tests/__mocks__/fileMock.js",
-    "\\.(css|less|sass|scss)$": "identity-obj-proxy",
-  },
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 };
+
+export default config;

@@ -36,7 +36,11 @@ const BalanceSheetComponent: React.FC = () => {
       const result = await response.json();
       setData(result.reports as Sheet);
     } catch (error) {
-      console.error("Error fetching balance sheet:", error);
+      setData({
+        ReportName: "Error fetching balance sheet",
+        ReportDate: "Error fetching balance sheet",
+        ReportTitles: [],
+      });
     } finally {
       setIsLoading(false);
     }
@@ -86,10 +90,10 @@ const BalanceSheetComponent: React.FC = () => {
 
   return (
     <>
-      <h1>Report - Balance Sheet</h1>
+      <h1>{data.ReportName}</h1>
       {isLoading ? (
         <p>Loading...</p>
-      ) : (
+      ) : data.Rows && data.Rows.length > 0 ? (
         <table cellSpacing={0}>
           <tbody>
             {data.Rows?.map((row, index) => {
@@ -99,6 +103,8 @@ const BalanceSheetComponent: React.FC = () => {
             })}
           </tbody>
         </table>
+      ) : (
+        <p>No data available</p>
       )}
     </>
   );
