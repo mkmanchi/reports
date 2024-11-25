@@ -37,6 +37,7 @@ const useBalanceSheet = () => {
           ReportDate: "Error fetching balance sheet",
           ReportTitles: [],
         });
+        console.error(error);
       } finally {
         setIsLoading(false);
       }

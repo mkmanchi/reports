@@ -15,8 +15,8 @@ describe("BalanceSheetComponent", () => {
     fetchMock.mockResponseOnce(
       () =>
         new Promise((resolve) =>
-          setTimeout(() => resolve({ body: '{"reports": {}}' }))
-        )
+          setTimeout(() => resolve({ body: '{"reports": {}}' })),
+        ),
     );
 
     render(<BalanceSheetComponent />);
@@ -59,7 +59,7 @@ describe("BalanceSheetComponent", () => {
             },
           ],
         },
-      })
+      }),
     );
 
     render(<BalanceSheetComponent />);
@@ -83,7 +83,7 @@ describe("BalanceSheetComponent", () => {
     await waitFor(() => expect(screen.queryByText(/loading/i)).toBeNull());
 
     expect(
-      screen.getByText(/Error fetching balance sheet/i)
+      screen.getByText(/Error fetching balance sheet/i),
     ).toBeInTheDocument();
   });
 
@@ -97,7 +97,7 @@ describe("BalanceSheetComponent", () => {
           ReportDate: "2024-11-24",
           Rows: [],
         },
-      })
+      }),
     );
 
     render(<BalanceSheetComponent />);
