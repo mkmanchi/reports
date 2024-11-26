@@ -7,13 +7,14 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "prettier:check": "prettier --check .",
+    "prettier:check": "npm run ts:check && prettier --check .",
     "prettier:fix": "prettier --write .",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "serve:dist": "serve -s dist -p 2649",
     "test": "jest",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "ts:check": "node ./tests/ts-check.cjs"
   },
   "dependencies": {
     "react": "^18.3.1",
